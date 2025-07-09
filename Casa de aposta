@@ -1,0 +1,145 @@
+import { useState } from "react"; import { Card, CardContent } from "@/components/ui/card"; import { Button } from "@/components/ui/button";
+
+export default function CassinoOnline() { const [saldo, setSaldo] = useState(1000); const [aposta, setAposta] = useState(0); const [resultado, setResultado] = useState(""); const [jogando, setJogando] = useState(false);
+
+const jogarRoleta = () => { if (aposta <= 0 || aposta > saldo) { setResultado("Valor da aposta inválido."); return; } setJogando(true); setResultado("Rodando a roleta..."); setTimeout(() => { const ganhou = Math.random() < 0.5; // 50% chance de ganhar if (ganhou) { setSaldo(saldo + aposta); setResultado("🎉 Você ganhou! +" + aposta + " moedas"); } else { setSaldo(saldo - aposta); setResultado("😢 Você perdeu! -" + aposta + " moedas"); } setJogando(false); }, 2000); };
+
+return ( <div className="min-h-screen bg-gradient-to-br from-black to-gray-900 text-white flex flex-col items-center justify-center p-4"> <h1 className="text-4xl font-bold mb-4">Cassino Royale</h1> <Card className="bg-gray-800 w-full max-w-md"> <CardContent className="p-6 space-y-4"> <p>💰 Saldo: {saldo} moedas</p> <input type="number" placeholder="Valor da aposta" className="w-full p-2 text-black rounded" value={aposta} onChange={(e) => setAposta(parseInt(e.target.value))} /> <Button
+onClick={jogarRoleta}
+disabled={jogando}
+className="w-full bg-red-600 hover:bg-red-700"
+> 🎲 Jogar Roleta </Button> <p className="text-center mt-4">{resultado}</p> </CardContent> </Card> </div> ); }
+
+npx create-next-app@latest cassino-npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -pcontent: ["./app/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"]@tailwind base;
+@tailwind components;
+@tailwind utilities;npx shadcn-ui@latest initnpx shadcn-ui@latest add card buttonapp/page.tsx  ou  src/pages/index.tsxcassino-online/
+├── app/
+│   └── page.tsx
+├── components/
+│   ├── ui/
+│   │   ├── button.tsx
+│   │   └── card.tsx
+├── styles/
+│   └── globals.css
+├── tailwind.config.js
+├── postcss.config.js
+└── package.json{
+  "name": "cassino-online",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.0.0",
+    "postcss": "^8.0.0",
+    "autoprefixer": "^10.0.0"
+  }module.exports = {
+  content: ["./app/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
+  theme: { extend: {} },
+  plugins: []
+};module.exports = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },@tailwind base;
+@tailwind components;
+@tailwind utilities;
+};
+}export function Card({ children, className = "" }: React.PropsWithChildren<{ className?: string }>) {
+  return (
+    <div className={`rounded-lg shadow-md bg-gray-800 ${className}`}>
+      {children}
+    </div>
+  );
+}
+
+export function CardContent({ children, className = "" }: React.PropsWithChildren<{ className?: string }>) {
+  return <div className={`p-6 ${className}`}>{children}</div>;
+}export function Button({ children, className = "", ...props }: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+  return (
+    <button {...props} className={`px-4 py-2 rounded bg-red-600 hover:bg-red-700 text-white ${className}`}>
+      {children}
+    </button>
+  );
+}"use client";
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+
+export default function Home() {
+  const [saldo, setSaldo] = useState(1000);
+  const [aposta, setAposta] = useState(0);
+  const [resultado, setResultado] = useState("");
+  const [jogando, setJogando] = useState(false);
+
+  const jogarRoleta = () => {
+    if (aposta <= 0 || aposta > saldo) {
+      setResultado("Valor da aposta inválido.");
+      return;
+    }
+    setJogando(true);
+    setResultado("Rodando a roleta...");
+    setTimeout(() => {
+      const ganhou = Math.random() < 0.5;
+      if (ganhou) {
+        setSaldo(saldo + aposta);
+        setResultado("🎉 Você ganhou! +" + aposta + " moedas");
+      } else {
+        setSaldo(saldo - aposta);
+        setResultado("😢 Você perdeu! -" + aposta + " moedas");
+      }
+      setJogando(false);
+    }, 2000);
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-black to-gray-900 text-white flex flex-col items-center justify-center p-4">
+      <h1 className="text-4xl font-bold mb-4">Cassino Royale</h1>
+      <Card className="w-full max-w-md">
+        <CardContent>
+          <p>💰 Saldo: {saldo} moedas</p>
+          <input
+            type="number"
+            placeholder="Valor da aposta"
+            className="w-full p-2 text-black rounded my-2"
+            value={aposta}
+            onChange={(e) => setAposta(parseInt(e.target.value))}
+          />
+          <Button onClick={jogarRoleta} disabled={jogando} className="w-full">
+            🎲 Jogar Roleta
+          </Button>
+          <p className="text-center mt-4">{resultado}</p>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}npm install
+npm run dev{
+  "name": "cassino-online",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.0.0",
+    "postcss": "^8.0.0",
+    "autoprefixer": "^10.0.0"
+  }
+}
